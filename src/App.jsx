@@ -12,7 +12,9 @@ function App() {
   const [quantity, setQuantity] = useState(1);
   const [couponCode, setCouponCode] = useState('');
   const [userTier, setUserTier] = useState('standard');
+  const [showHiddenProducts, setShowHiddenProducts] = useState(false);
   
+
   // Login function to get session token
   const login = async () => {
     try {
