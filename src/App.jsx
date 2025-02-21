@@ -12,9 +12,7 @@ function App() {
   const [quantity, setQuantity] = useState(1);
   const [couponCode, setCouponCode] = useState('');
   const [userTier, setUserTier] = useState('standard');
-  const [showHiddenProducts, setShowHiddenProducts] = useState(false);
-  const [showRiddleSolution, setShowRiddleSolution] = useState(false);
-
+  
   // Login function to get session token
   const login = async () => {
     try {
@@ -113,7 +111,7 @@ function App() {
     <div className="app-container">
       <div className="header-banner">
         <h1>Secure Online Store</h1>
-        <p className="subtitle">CTF Challenge: Find the Business Logic Vulnerability</p>
+        <p className="subtitle">CTF Challenge</p>
       </div>
       
       <div className="riddle-container">
@@ -125,23 +123,7 @@ function App() {
             Find the gap between these two worlds,<br />
             And you'll slip through the door."
           </p>
-          <button 
-            className="hint-button" 
-            onClick={() => setShowRiddleSolution(!showRiddleSolution)}>
-            {showRiddleSolution ? "Hide Hint" : "I Need a Hint"}
-          </button>
           
-          {showRiddleSolution && (
-            <div className="riddle-solution">
-              <p>The system has a transaction limit that checks the <strong>original price</strong>, but the actual payment uses the <strong>discounted price</strong>. What if a transaction's original price exceeds the limit, but its discounted price doesn't?</p>
-              <ul>
-                <li>Try finding a hidden product (click "Show All Items")</li>
-                <li>Remember there's a 10% discount with code "WELCOME10"</li>
-                <li>The system has a $500 transaction limit</li>
-                <li>Try ordering multiple items to reach specific price points</li>
-              </ul>
-            </div>
-          )}
         </div>
       </div>
       
@@ -226,18 +208,10 @@ function App() {
         </div>
       )}
       
-      <div className="store-info">
-        <h3>Payment Processing Information</h3>
-        <ul>
-          <li>Our system calculates the original price first, then applies any discounts</li>
-          <li>For security, transactions with original price over $500 require special approval</li>
-          <li>Use coupon code "<strong>WELCOME10</strong>" for a <strong>10% discount</strong> on your purchase</li>
-          <li>Final price calculation: <code>basePrice × quantity × (1 - discount%)</code></li>
-        </ul>
-      </div>
+      
       
       <footer>
-        <p>CTF Challenge v2.0 - Business Logic Vulnerability Exercise</p>
+        <p>CTF Challenge v2.0</p>
       </footer>
     </div>
   );
