@@ -112,8 +112,8 @@ function App() {
   return (
     <div className="app-container">
       <div className="header-banner">
-        <h1>Secure Online Store</h1>
-        <p className="subtitle">CTF Challenge</p>
+        <h1>Hunter Invantory</h1>
+        
       </div>
       
       <div className="riddle-container">
@@ -210,11 +210,6 @@ function App() {
         </div>
       )}
       
-      
-      
-      <footer>
-        <p>CTF Challenge v2.0</p>
-      </footer>
     </div>
   );
 }
