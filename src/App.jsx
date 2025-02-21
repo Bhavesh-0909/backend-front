@@ -112,7 +112,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="header-banner">
-        <h1>Hunter Invantory</h1>
+        <h1>Hunter Inventory</h1>
         
       </div>
       
