@@ -23,11 +23,13 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.json();
-      setSessionToken(data.token);
-      setMessage('Logged in successfully');
-      
-      // Fetch balance after login
-      fetchBalance(data.token);
+      if (data.token) {
+        localStorage.setItem("sessionToken", data.token);
+        setSessionToken(data.token);
+        fetchBalance(data.token);
+      } else {
+        setMessage('Failed to login');
+      }
     } catch (err) {
       setMessage('Failed to login');
     }
@@ -100,7 +102,12 @@ function App() {
 
   // Auto-login on component mount
   useEffect(() => {
-    login();
+    const savedToken = localStorage.getItem("sessionToken");
+    if (savedToken) {
+      setSessionToken(savedToken);
+    } else {
+      login();
+    }
   }, []);
 
   // Calculate displayed price
