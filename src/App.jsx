@@ -53,43 +53,58 @@ function App() {
     }
   };
 
+  // Add this function
+    const handleReLogin = async () => {
+      localStorage.removeItem("sessionToken");
+      setSessionToken('');
+      await login();
+    };
+
   // Improved purchase function
   const purchase = async (productId) => {
-    if (!sessionToken) {
-      setMessage('Please login first');
-      return;
+    // Get the token from either state or localStorage
+    const token = sessionToken || localStorage.getItem("sessionToken");
+    
+    if (!token) {
+        setMessage('Please login first');
+        return;
     }
 
     const quantity = quantities[productId] || 1;
     
     try {
-      const response = await fetch('https://business-back-viyj.onrender.com/api/v2/commerce/purchase', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-session-token': sessionToken
-        },
-        body: JSON.stringify({ 
-          productId, 
-          quantity: parseInt(quantity),
-          couponCode: couponCode.trim() || undefined
-        }),
-      });
-      
-      const data = await response.json();
-      
-      if (data.flag) {
-        setMessage(`🎉 Congratulations! Flag found: ${data.flag}`);
-      } else if (data.error) {
-        setMessage(`Error: ${data.error}`);
-      } else {
-        setMessage(data.message);
-        setBalance(data.newBalance);
-      }
+        const response = await fetch('https://business-back-viyj.onrender.com/api/v2/commerce/purchase', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-session-token': token  // Use the retrieved token
+            },
+            body: JSON.stringify({ 
+                productId, 
+                quantity: parseInt(quantity),
+                couponCode: couponCode.trim() || undefined
+            }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.flag) {
+            setMessage(`🎉 Congratulations! Flag found: ${data.flag}`);
+        } else if (data.error) {
+            setMessage(`Error: ${data.error}`);
+        } else {
+            setMessage(data.message);
+            setBalance(data.newBalance);
+        }
     } catch (err) {
-      setMessage('Failed to process purchase. Please try again.');
+      if (err.message.includes('Authentication required')) {
+        await handleReLogin();
+        setMessage('Session expired. Please try the purchase again.');
+    } else {
+        setMessage('Failed to process purchase. Please try again.');
     }
-  };
+    }
+};
 
   // Toggle hidden products with improved handling
   const toggleHiddenProducts = () => {
